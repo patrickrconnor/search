@@ -46,12 +46,13 @@ class Indexer:
         all_pages = root.findall("page")
         self.n = len(all_pages)
         for page in all_pages:
+            self.id = self.extract_id(page)
             title = self.extract_title(page)
             self.ids_to_titles[self.id] = title
             self.titles_to_ids[title] = self.id
         for page in all_pages:
             self.id = self.extract_id(page)
-            ##How can I still use id as variable in the loop above that is concerning
+            self.page_links[self.id] = []
             page_corpus = self.tokenize_and_stem(self.extract_text(page))
             self.page_most_common_apppearances[self.id] = 0
             for word in page_corpus:
@@ -82,7 +83,8 @@ class Indexer:
         all_words_regex = r"[a-zA-Z0-9]+'[a-zA-Z0-9]+|[a-zA-Z0-9]+"
         link_text = re.findall(link_regex, words)
         if link_text is empty:
-            self.page_links[self.id].add(self.titles_to_ids.values)
+            self.page_links[self.id].add(self.titles_to_ids.values())
+            self.page_links[self.id].remove(self.id)
         else:
             for link in link_text:
                 page_title = link.strip("[,]").split("|")[0]
@@ -106,7 +108,10 @@ class Indexer:
         return math.sqrt(sum_counter)
 
     def weight(k: int, j: int):
-        pass
+        if j in self.page_links[k]:
+            return 0.15 / self.n + 0.85 / len(self.page__links[k])
+        else:
+            return 0.15 / self.n
 
     def page_rank(self, page_ids):
         r: dict[int:float] = {}
