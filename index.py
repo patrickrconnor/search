@@ -50,6 +50,7 @@ class Indexer:
             title = self.extract_title(page)
             self.ids_to_titles[self.id] = title
             self.titles_to_ids[title] = self.id
+        self.page_ids = self.titles_to_ids.values()
         for page in all_pages:
             self.id = self.extract_id(page)
             self.page_links[self.id] = []
@@ -77,13 +78,14 @@ class Indexer:
                 self.words_ids_counts[word][self.id] = (
                     c_i_j / a_i_j * math.log(self.n / n_i)
                 )
+        self.page_rank(self.page_ids)
 
     def tokenize_and_stem(self, words: str):
         link_regex = r"\[\[[^\[]+?\]\]"
         all_words_regex = r"[a-zA-Z0-9]+'[a-zA-Z0-9]+|[a-zA-Z0-9]+"
         link_text = re.findall(link_regex, words)
         if link_text is empty:
-            self.page_links[self.id].add(self.titles_to_ids.values())
+            self.page_links[self.id].add(self.page_ids)
             self.page_links[self.id].remove(self.id)
         else:
             for link in link_text:
@@ -107,7 +109,7 @@ class Indexer:
             sum_counter += (r_prime_values[i] - r_values[i]) ** 2
         return math.sqrt(sum_counter)
 
-    def weight(k: int, j: int):
+    def weight(self, k: int, j: int):
         if j in self.page_links[k]:
             return 0.15 / self.n + 0.85 / len(self.page__links[k])
         else:
@@ -125,4 +127,4 @@ class Indexer:
             for j in page_ids:
                 self.ids_ranks[j] = 0
                 for k in page_ids:
-                    self.ids_ranks[j] = self.ids_ranks[j] + weight(k, j) * r[k]
+                    self.ids_ranks[j] = self.ids_ranks[j] + self.weight(k, j) * r[k]
