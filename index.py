@@ -94,7 +94,9 @@ class Indexer:
                     link_id = self.titles_to_ids[page_title]
                     if self.id != link_id:
                         self.page_links[self.id].add(link_id)
-        return [self.remove_stop_stem(x) for x in re.findall(all_words_regex, words)]
+        return [
+            self.remove_stop_stem(x) for x in re.findall(all_words_regex, words)
+        ]
 
     def remove_stop_stem(self, word: str):
         stemmer = PorterStemmer()
@@ -127,4 +129,6 @@ class Indexer:
             for j in page_ids:
                 self.ids_ranks[j] = 0
                 for k in page_ids:
-                    self.ids_ranks[j] = self.ids_ranks[j] + self.weight(k, j) * r[k]
+                    self.ids_ranks[j] = (
+                        self.ids_ranks[j] + self.weight(k, j) * r[k]
+                    )
