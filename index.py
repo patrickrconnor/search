@@ -1,3 +1,5 @@
+import sys
+import file_io
 import xml.etree.ElementTree as et
 from nltk.corpus import stopwords
 from nltk.stem import PorterStemmer
@@ -41,8 +43,8 @@ class Indexer:
     def extract_text(self, page):
         return page.find("text").text
 
-    def parse(self, xml_filepath: str):
-        root = et.parse(xml_filepath).getroot()
+    def parse(self):
+        root = et.parse(self.xml_filepath).getroot()
         all_pages = root.findall("page")
         self.n = len(all_pages)
         for page in all_pages:
@@ -132,3 +134,18 @@ class Indexer:
                     self.ids_ranks[j] = (
                         self.ids_ranks[j] + self.weight(k, j) * r[k]
                     )
+
+
+if __name__ == "__main__":
+    if len(sys.argv) - 1 == 4:
+        indexer = Indexer(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+        indexer.parse()
+        file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
+        file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)
+        file_io.write_words_file(
+            indexer.words_filepath, indexer.words_ids_relevance
+        )
+    else:
+        print(
+            "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
+        )

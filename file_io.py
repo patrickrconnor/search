@@ -4,8 +4,6 @@ indexer and querier in search
 """
 
 
-    
-
 def write_title_file(title: str, dictionary: dict):
     """
     Writes the dictionary of documents to titles into a file to be read in querying
@@ -28,7 +26,7 @@ def write_docs_file(docs: str, ids_to_pageranks: dict):
     output looks like:
     id1 pagerank1
     id2 pagerank2
-    :param docs: filepath to docs file 
+    :param docs: filepath to docs file
     :param ids_to_pageranks: dictionary of ids --> pageranks
     :return: n/a
     """
@@ -74,8 +72,8 @@ def read_title_file(titles: str, ids_to_titles: dict):
 def read_docs_file(docs: str, ids_to_pageranks: dict):
     """
     reads in the pageranks written in docs to into ids_to_pageranks dictionary
-    :param docs: filepath to docs file 
-    :param ids_to_pageranks: dictionary of ids to pageranks 
+    :param docs: filepath to docs file
+    :param ids_to_pageranks: dictionary of ids to pageranks
     :return: n/a
     """
     with open(docs, "r") as docs_fh:
@@ -105,7 +103,7 @@ def read_words_file(words: str, words_to_doc_relevance: dict):
             word = split[0]
             for i in range(1, len(split), 2):
                 page_id = int(split[i])
-                relevance = float(split[i+1])
+                relevance = float(split[i + 1])
                 if word not in words_to_doc_relevance:
                     words_to_doc_relevance[word] = {}
                 words_to_doc_relevance[word][page_id] = relevance
