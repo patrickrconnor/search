@@ -86,7 +86,7 @@ class Indexer:
         link_regex = r"\[\[[^\[]+?\]\]"
         all_words_regex = r"[a-zA-Z0-9]+'[a-zA-Z0-9]+|[a-zA-Z0-9]+"
         link_text = re.findall(link_regex, words)
-        if link_text is empty:
+        if link_text == []:
             self.page_links[self.id].add(self.page_ids)
             self.page_links[self.id].remove(self.id)
         else:
