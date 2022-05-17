@@ -35,13 +35,13 @@ class Indexer:
         self.page_links: dict[int : set[int]] = {}
 
     def extract_title(self, page):
-        return page.find("title").text
+        return page.find("title").text.split("")
 
     def extract_id(self, page):
-        return int(page.find("id").text)
+        return int(page.find("id").text.split(""))
 
     def extract_text(self, page):
-        return page.find("text").text
+        return page.find("text").text.split("")
 
     def parse(self):
         root = et.parse(self.xml_filepath).getroot()
