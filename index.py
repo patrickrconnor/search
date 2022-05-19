@@ -6,8 +6,6 @@ from nltk.stem import PorterStemmer
 import math
 import re
 
-from pyparsing import empty
-
 STOP_WORDS = set(stopwords.words("english"))
 
 "def index(xml: str, titles_file: str, docs_file: str, words_file: str):"
@@ -35,13 +33,13 @@ class Indexer:
         self.page_links: dict[int : set[int]] = {}
 
     def extract_title(self, page):
-        return page.find("title").text.split(" ")
+        return page.find("title").text.strip()
 
     def extract_id(self, page):
-        return int(page.find("id").text.split(" "))
+        return int(page.find("id").text.strip())
 
     def extract_text(self, page):
-        return page.find("text").text.split(" ")
+        return page.find("text").text.strip()
 
     def parse(self):
         root = et.parse(self.xml_filepath).getroot()
@@ -73,11 +71,11 @@ class Indexer:
                 )
         for word in self.words_ids_counts:
             n_i = len(self.words_ids_counts[word])
-            for self.id in self.words_ids_counts[word]:
+            for id in self.words_ids_counts[word]:
                 self.words_ids_relevance[word] = {}
-                c_i_j = self.words_ids_counts[word][self.id]
-                a_i_j = self.page_most_common_apppearances[self.id]
-                self.words_ids_counts[word][self.id] = (
+                c_i_j = self.words_ids_counts[word][id]
+                a_i_j = self.page_most_common_apppearances[id]
+                self.words_ids_relevance[word][id] = (
                     c_i_j / a_i_j * math.log(self.n / n_i)
                 )
         self.page_rank(self.page_ids)
@@ -87,7 +85,7 @@ class Indexer:
         all_words_regex = r"[a-zA-Z0-9]+'[a-zA-Z0-9]+|[a-zA-Z0-9]+"
         link_text = re.findall(link_regex, words)
         if link_text == []:
-            self.page_links[self.id].add(self.page_ids)
+            self.page_links[self.id].append(self.page_ids)
             self.page_links[self.id].remove(self.id)
         else:
             for link in link_text:
@@ -95,35 +93,34 @@ class Indexer:
                 if page_title in self.titles_to_ids:
                     link_id = self.titles_to_ids[page_title]
                     if self.id != link_id:
-                        self.page_links[self.id].add(link_id)
+                        self.page_links[self.id].append(link_id)
         return [
             self.remove_stop_stem(x) for x in re.findall(all_words_regex, words)
         ]
 
     def remove_stop_stem(self, word: str):
-        stemmer = PorterStemmer()
+        stemmer = PorterStemmer() 
         if word not in STOP_WORDS:
             return stemmer.stem(word)
 
     def euclidean_distance(self, r: dict[int:float], r_prime: dict[int:float]):
         sum_counter = 0
-        r_values = r.values()
-        r_prime_values = r_prime.values()
+        r_values = list(r.values())
+        r_prime_values = list(r_prime.values())
         for i in range(len(r_values)):
             sum_counter += (r_prime_values[i] - r_values[i]) ** 2
         return math.sqrt(sum_counter)
 
     def weight(self, k: int, j: int):
         if j in self.page_links[k]:
-            return 0.15 / self.n + 0.85 / len(self.page__links[k])
+            return 0.15 / self.n + 0.85 / len(self.page_links[k])
         else:
             return 0.15 / self.n
 
     def page_rank(self, page_ids):
         r: dict[int:float] = {}
         self.n = len(page_ids)
-        for page in page_ids:
-            id = self.extract_id(page)
+        for id in page_ids:
             r[id] = 0.0
             self.ids_ranks[id] = 1 / self.n
         while self.euclidean_distance(r, self.ids_ranks) > 0.001:
@@ -137,15 +134,22 @@ class Indexer:
 
 
 if __name__ == "__main__":
-    if len(sys.argv) - 1 == 4:
-        indexer = Indexer(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
-        indexer.parse()
-        file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
-        file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)
-        file_io.write_words_file(
-            indexer.words_filepath, indexer.words_ids_relevance
-        )
-    else:
-        print(
-            "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
-        )
+    indexer = Indexer('SmallWiki.xml', 'titles.txt', 'docs.txt', 'words.txt')
+    indexer.parse()
+    file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
+    file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)
+    file_io.write_words_file(
+        indexer.words_filepath, indexer.words_ids_relevance
+    )
+    # if len(sys.argv) - 1 == 4:
+    #     indexer = Indexer(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    #     indexer.parse()
+    #     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
+    #     file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)
+    #     file_io.write_words_file(
+    #         indexer.words_filepath, indexer.words_ids_relevance
+    #     )
+    # else:
+    #     print(
+    #         "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
+    #     )
