@@ -33,12 +33,6 @@ def read_arguments():
     return use_pagerank
 
 
-def remove_stop_stem(word: str):
-    stemmer = PorterStemmer()
-    if word not in STOP_WORDS:
-        return stemmer.stem(word)
-
-
 def score(input_list):
     use_pagerank = read_arguments()
     for input_word in input_list:
@@ -54,16 +48,24 @@ def score(input_list):
 
 
 if __name__ == "__main__":
+    stemmer = PorterStemmer()
     all_words_regex = r"[a-zA-Z0-9]+'[a-zA-Z0-9]+|[a-zA-Z0-9]+"
     user_input = input("search>")
     while user_input != ":quit":
         input_list = [
-            remove_stop_stem(x) for x in re.findall(all_words_regex, user_input)
+            stemmer.stem(x)
+            for x in re.findall(all_words_regex, user_input)
+            if x not in STOP_WORDS
         ]
         score(input_list)
         if id_score == {}:
             print("None of the words in the query appear in the wiki")
             continue
         output_list = sorted(id_score, key=id_score.get)
-        for i in range(10):
-            print(f"{i+1} {output_list[i]}")
+        if len(output_list) < 10:
+            for i in range(len(output_list)):
+                print(f"{i+1} {ids_to_titles[output_list[i]]}")
+        else:
+            for i in range(10):
+                print(f"{i+1} {ids_to_titles[output_list[i]]}")
+        user_input = input("search>")
