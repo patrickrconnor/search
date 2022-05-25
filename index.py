@@ -98,6 +98,7 @@ class Indexer:
                     if self.id != link_id:
                         if link_id not in self.page_links[self.id]:
                             self.page_links[self.id].append(link_id)
+
         return [stemmer.stem(x) for x in word_text if x not in STOP_WORDS]
 
     def euclidean_distance(self, r: dict[int:float], r_prime: dict[int:float]):
@@ -109,6 +110,9 @@ class Indexer:
         return math.sqrt(sum_counter)
 
     def weight(self, k: int, j: int):
+        if self.page_links[k] == []:
+            self.page_links[k] = self.page_ids.copy()
+            self.page_links[k].remove(k)
         if j in self.page_links[k]:
             return 0.15 / self.n + 0.85 / len(self.page_links[k])
         else:
@@ -144,7 +148,7 @@ if __name__ == "__main__":
     #         "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
     #     )
     indexer = Indexer(
-        "PageRankExample4.xml", "titles.txt", "docs.txt", "words.txt"
+        "PageRankExample3.xml", "titles.txt", "docs.txt", "words.txt"
     )
     indexer.parse()
     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
