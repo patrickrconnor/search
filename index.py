@@ -130,7 +130,19 @@ class Indexer:
 
 
 if __name__ == "__main__":
-    indexer = Indexer("SmallWiki.xml", "titles.txt", "docs.txt", "words.txt")
+    # if len(sys.argv) - 1 == 4:
+    #     indexer = Indexer(sys.argv[1], sys.argv[2], sys.argv[3], sys.argv[4])
+    #     indexer.parse()
+    #     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
+    #     file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)
+    #     file_io.write_words_file(
+    #         indexer.words_filepath, indexer.words_ids_relevance
+    #     )
+    # else:
+    #     print(
+    #         "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
+    #     )
+    indexer = Indexer("PageRankExample1.xml", "titles.txt", "docs.txt", "words.txt")
     indexer.parse()
     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
     file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)

@@ -53,13 +53,14 @@ if __name__ == "__main__":
     user_input = input("search>")
     while user_input != ":quit":
         input_list = [
-            stemmer.stem(x)
-            for x in re.findall(all_words_regex, user_input)
+            stemmer.stem(x)\
+            for x in re.findall(all_words_regex, user_input)\
             if x not in STOP_WORDS
         ]
         score(input_list)
         if id_score == {}:
             print("None of the words in the query appear in the wiki")
+            user_input = input("search>")
             continue
         output_list = sorted(id_score, key=id_score.get)
         if len(output_list) < 10:
