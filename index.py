@@ -72,8 +72,8 @@ class Indexer:
                 )
         for word in self.words_ids_counts:
             n_i = len(self.words_ids_counts[word])
+            self.words_ids_relevance[word] = {}
             for id in self.words_ids_counts[word]:
-                self.words_ids_relevance[word] = {}
                 c_i_j = self.words_ids_counts[word][id]
                 a_i_j = self.page_most_common_apppearances[id]
                 self.words_ids_relevance[word][id] = (
@@ -147,9 +147,7 @@ if __name__ == "__main__":
     #     print(
     #         "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
     #     )
-    indexer = Indexer(
-        "MedWiki.xml", "titles.txt", "docs.txt", "words.txt"
-    )
+    indexer = Indexer("MedWiki.xml", "titles.txt", "docs.txt", "words.txt")
     indexer.parse()
     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
     file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)

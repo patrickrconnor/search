@@ -7,7 +7,7 @@
       1
     </id>
     <text>
-      the dog bit the man
+      crazy dog bit the man
     </text>
   </page>
   <page>
@@ -18,7 +18,7 @@
 	  2
 	</id>
 	<text>
-      the dog ate cheese
+      crazy dog ate cheese
 	</text>
   </page>
   <page>
@@ -29,7 +29,7 @@
 	  3
 	</id>
 	<text>
-      the cheese bit the cheese
+      crazy cheese bit crazy cheese
 	</text>
   </page>
 </xml>
