@@ -50,7 +50,7 @@ class Indexer:
             title = self.extract_title(page)
             self.ids_to_titles[self.id] = title
             self.titles_to_ids[title] = self.id
-        self.page_ids = self.titles_to_ids.values()
+        self.page_ids = list(self.titles_to_ids.values())
         for page in all_pages:
             self.id = self.extract_id(page)
             self.page_links[self.id] = []
@@ -88,7 +88,7 @@ class Indexer:
         link_text = re.findall(link_regex, words)
         word_text = re.findall(all_words_regex, words)
         if link_text == []:
-            self.page_links[self.id].append(self.page_ids)
+            self.page_links[self.id] = self.page_ids
             self.page_links[self.id].remove(self.id)
         else:
             for link in link_text:
@@ -142,7 +142,9 @@ if __name__ == "__main__":
     #     print(
     #         "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
     #     )
-    indexer = Indexer("PageRankExample1.xml", "titles.txt", "docs.txt", "words.txt")
+    indexer = Indexer(
+        "PageRankExample1.xml", "titles.txt", "docs.txt", "words.txt"
+    )
     indexer.parse()
     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
     file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)
