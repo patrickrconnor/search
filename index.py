@@ -148,7 +148,7 @@ if __name__ == "__main__":
     #         "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
     #     )
     indexer = Indexer(
-        "PageRankExample3.xml", "titles.txt", "docs.txt", "words.txt"
+        "MedWiki.xml", "titles.txt", "docs.txt", "words.txt"
     )
     indexer.parse()
     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)

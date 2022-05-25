@@ -1,0 +1,57 @@
+<xml>
+    <page>
+        <title>
+            Zero Danishes
+        </title>
+        <id>
+            1
+        </id>
+        <text>
+            cookie
+        </text>
+    </page>
+    <page>
+        <title>
+            One Danish
+        </title>
+        <id>
+            2
+        </id>
+        <text>
+            cookie danish
+        </text>
+    </page>
+    <page>
+        <title>
+            Two Danishes
+        </title>
+        <id>
+            3
+        </id>
+        <text>
+            cookie danish danish
+        </text>
+    </page>
+    <page>
+        <title>
+            Three Danishes
+        </title>
+        <id>
+            4
+        </id>
+        <text>
+            cookie danish danish danish
+        </text>
+    </page>
+    <page>
+        <title>
+            Four Danishes
+        </title>
+        <id>
+            5
+        </id>
+        <text>
+            cookie danish danish danish danish
+        </text>
+    </page>
+</xml>

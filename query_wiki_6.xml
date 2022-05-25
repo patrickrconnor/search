@@ -1,0 +1,27 @@
+<xml>
+    <page>
+        <title>A</title>
+        <id>1</id>
+        <text>cucumber [[B]]</text>
+    </page>
+    <page>
+        <title>B</title>
+        <id>2</id>
+        <text>cucumber [[C]]</text>
+    </page>
+    <page>
+        <title>C</title>
+        <id>3</id>
+        <text>cucumber [D]]</text>
+    </page>
+    <page>
+        <title>D</title>
+        <id>4</id>
+        <text>cucumber [[E]]</text>
+    </page>
+    <page>
+        <title>E</title>
+        <id>5</id>
+        <text>cucumber [[A]]</text>
+    </page>
+</xml>

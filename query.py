@@ -17,6 +17,8 @@ id_score: dict[int:float] = {}
 def read_arguments():
     arguments_number = len(sys.argv)
     use_pagerank = False
+    # file_io.read_title_file("titles.txt", ids_to_titles)
+    # file_io.read_words_file("words.txt", words_ids_relevance)
     if arguments_number == 5 or arguments_number == 4:
         use_pagerank = sys.argv[1] == "--pagerank"
         if use_pagerank:
@@ -53,8 +55,8 @@ if __name__ == "__main__":
     user_input = input("search>")
     while user_input != ":quit":
         input_list = [
-            stemmer.stem(x)\
-            for x in re.findall(all_words_regex, user_input)\
+            stemmer.stem(x)
+            for x in re.findall(all_words_regex, user_input)
             if x not in STOP_WORDS
         ]
         score(input_list)
@@ -69,4 +71,5 @@ if __name__ == "__main__":
         else:
             for i in range(10):
                 print(f"{i+1} {ids_to_titles[output_list[i]]}")
+        id_score = {}
         user_input = input("search>")
