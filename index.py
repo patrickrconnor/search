@@ -88,7 +88,7 @@ class Indexer:
         link_text = re.findall(link_regex, words)
         word_text = re.findall(all_words_regex, words)
         if link_text == []:
-            self.page_links[self.id] = self.page_ids
+            self.page_links[self.id] = self.page_ids.copy()
             self.page_links[self.id].remove(self.id)
         else:
             for link in link_text:
