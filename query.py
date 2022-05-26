@@ -17,21 +17,19 @@ id_score: dict[int:float] = {}
 def read_arguments():
     arguments_number = len(sys.argv)
     use_pagerank = False
-    file_io.read_title_file("titles.txt", ids_to_titles)
-    file_io.read_words_file("words.txt", words_ids_relevance)
-    # if arguments_number == 5 or arguments_number == 4:
-    #     use_pagerank = sys.argv[1] == "--pagerank"
-    #     if use_pagerank:
-    #         file_io.read_title_file(sys.argv[2], ids_to_titles)
-    #         file_io.read_docs_file(sys.argv[3], ids_ranks)
-    #         file_io.read_words_file(sys.argv[4], words_ids_relevance)
-    #     else:
-    #         file_io.read_title_file(sys.argv[1], ids_to_titles)
-    #         file_io.read_words_file(sys.argv[3], words_ids_relevance)
-    # else:
-    #     print(
-    #         "The input should be of the form query.py [--pagerank] <titleIndex> <documentIndex> <wordIndex>"
-    #     )
+    if arguments_number == 5 or arguments_number == 4:
+        use_pagerank = sys.argv[1] == "--pagerank"
+        if use_pagerank:
+            file_io.read_title_file(sys.argv[2], ids_to_titles)
+            file_io.read_docs_file(sys.argv[3], ids_ranks)
+            file_io.read_words_file(sys.argv[4], words_ids_relevance)
+        else:
+            file_io.read_title_file(sys.argv[1], ids_to_titles)
+            file_io.read_words_file(sys.argv[3], words_ids_relevance)
+    else:
+        print(
+            "The input should be of the form query.py [--pagerank] <titleIndex> <documentIndex> <wordIndex>"
+        )
     return use_pagerank
 
 
@@ -64,7 +62,7 @@ if __name__ == "__main__":
             print("None of the words in the query appear in the wiki")
             user_input = input("search>")
             continue
-        output_list = sorted(id_score, key=id_score.get)
+        output_list = sorted(id_score, key=id_score.get, reverse=True)
         if len(output_list) < 20:
             for i in range(len(output_list)):
                 print(f"{i+1} {ids_to_titles[output_list[i]]}")

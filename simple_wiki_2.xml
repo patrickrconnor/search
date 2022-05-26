@@ -1,0 +1,49 @@
+<xml>
+<page>
+<title>
+Car
+</title>
+<id>
+1
+</id>
+<text>
+Automobiles meant going road. Poorly suited off road travel, unlike [[trucks]].
+</text>
+</page>
+
+<page>
+<title>
+Truck
+</title>
+<id>
+2
+</id>
+<text>
+Automobiles similar [[cars]] four wheel drive. Four wheels go off road
+</text>
+</page>
+
+<page>
+<title>
+Scooter
+</title>
+<id>
+3
+</id>
+<text>
+Smaller [[car]] two wheels
+</text>
+</page>
+
+<page>
+<title>
+Banana
+</title>
+<id>
+4
+</id>
+<text>
+Delicious fruit, carry
+</text>
+</page>
+</xml>

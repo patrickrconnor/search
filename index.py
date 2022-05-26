@@ -10,7 +10,6 @@ STOP_WORDS = set(stopwords.words("english"))
 
 "def index(xml: str, titles_file: str, docs_file: str, words_file: str):"
 
-
 class Indexer:
     def __init__(
         self,
@@ -54,8 +53,7 @@ class Indexer:
         for page in all_pages:
             self.id = self.extract_id(page)
             self.page_links[self.id] = []
-            debug_string = self.extract_text(page)
-            page_corpus = self.tokenize_and_stem(debug_string)
+            page_corpus = self.tokenize_and_stem(self.extract_text(page))
             self.page_most_common_apppearances[self.id] = 0
             for word in page_corpus:
                 if word in self.words_ids_counts:
@@ -156,7 +154,7 @@ if __name__ == "__main__":
     #         "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
     #     )
     indexer = Indexer(
-        "PageRankExample2.xml", "titles.txt", "docs.txt", "words.txt"
+        "MedWiki.xml", "titles.txt", "docs.txt", "words.txt"
     )
     indexer.parse()
     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
