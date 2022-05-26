@@ -65,11 +65,11 @@ if __name__ == "__main__":
             user_input = input("search>")
             continue
         output_list = sorted(id_score, key=id_score.get)
-        if len(output_list) < 10:
+        if len(output_list) < 20:
             for i in range(len(output_list)):
                 print(f"{i+1} {ids_to_titles[output_list[i]]}")
         else:
-            for i in range(10):
+            for i in range(20):
                 print(f"{i+1} {ids_to_titles[output_list[i]]}")
         id_score = {}
         user_input = input("search>")

@@ -84,21 +84,29 @@ class Indexer:
     def tokenize_and_stem(self, words: str):
         stemmer = PorterStemmer()
         link_regex = r"\[\[[^\[]+?\]\]"
-        all_words_regex = r"[a-zA-Z0-9]+'[a-zA-Z0-9]+|[a-zA-Z0-9]+"
-        link_text = re.findall(link_regex, words)
-        word_text = re.findall(all_words_regex, words)
-        if link_text == []:
-            self.page_links[self.id] = self.page_ids.copy()
-            self.page_links[self.id].remove(self.id)
-        else:
-            for link in link_text:
-                page_title = link.strip("[,]").split("|")[0]
-                if page_title in self.titles_to_ids:
-                    link_id = self.titles_to_ids[page_title]
+        word_regex = r"[a-zA-Z0-9]+'[a-zA-Z0-9]+|[a-zA-Z0-9]+"
+        all_regex = r"\[\[[^\[]+?\]\]|[a-zA-Z0-9]+'[a-zA-Z0-9]+|[a-zA-Z0-9]+"
+        all_text = re.findall(all_regex, words)
+        word_text = []
+        for match in all_text:
+            if re.match(link_regex, match):
+                split_link = match.strip("[,]").split("|")
+                link_title = split_link[0]
+                if link_title in self.titles_to_ids:
+                    link_id = self.titles_to_ids[link_title]
                     if self.id != link_id:
                         if link_id not in self.page_links[self.id]:
                             self.page_links[self.id].append(link_id)
-
+                if len(split_link) > 1:
+                    link_text = split_link[1]
+                else:
+                    link_text = link_title
+                word_text += re.findall(word_regex, link_text)
+            else:
+                word_text.append(match)
+        if len(self.page_links[self.id]) == 0:
+            self.page_links[self.id] = self.page_ids.copy()
+            self.page_links[self.id].remove(self.id)
         return [stemmer.stem(x) for x in word_text if x not in STOP_WORDS]
 
     def euclidean_distance(self, r: dict[int:float], r_prime: dict[int:float]):
@@ -147,7 +155,9 @@ if __name__ == "__main__":
     #     print(
     #         "The input should be of the form <XML filepath> <titles filepath> <docs filepath> <words filepath>"
     #     )
-    indexer = Indexer("MedWiki.xml", "titles.txt", "docs.txt", "words.txt")
+    indexer = Indexer(
+        "PageRankExample2.xml", "titles.txt", "docs.txt", "words.txt"
+    )
     indexer.parse()
     file_io.write_title_file(indexer.titles_filepath, indexer.ids_to_titles)
     file_io.write_docs_file(indexer.docs_filepath, indexer.ids_ranks)
