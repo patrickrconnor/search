@@ -1,49 +1,51 @@
 <xml>
 <page>
 <title>
-Car
+Dogs
 </title>
 <id>
 1
 </id>
 <text>
-Automobiles meant going road. Poorly suited off road travel, unlike [[trucks]].
+[[cats | bird]] walk [[monkey]] [[cats]] fence
 </text>
 </page>
 
 <page>
 <title>
-Truck
+Cats
 </title>
 <id>
 2
 </id>
 <text>
-Automobiles similar [[cars]] four wheel drive. Four wheels go off road
+alligator [[monkey]] [[monkey | bird]] [[bird | monkey]] [[monkey]] tree
 </text>
 </page>
 
 <page>
 <title>
-Scooter
+Bird
 </title>
 <id>
 3
 </id>
 <text>
-Similar [[car]] two wheels
+flight [[cats | bird]] [[dogs]] fence tree dogs
 </text>
 </page>
 
 <page>
 <title>
-Banana
+Monkey
 </title>
 <id>
 4
 </id>
 <text>
-Delicious fruit, carry
+banana [[cats]] [[dogs]] [[birds]] count birds dogs
 </text>
 </page>
+
+
 </xml>
